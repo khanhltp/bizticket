@@ -1,0 +1,34 @@
+{
+  "name": "itlearn",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cypress": "^13.10.0",
+    "cypress-mysql": "^1.0.2",
+    "cypress-real-events": "^1.12.0"
+  },
+  "devDependencies": {
+    "@badeball/cypress-cucumber-preprocessor": "^20.1.0",
+    "@cypress/browserify-preprocessor": "^3.0.2",
+    "@faker-js/faker": "^8.4.1",
+    "cypress-cucumber-preprocessor": "^4.3.1",
+    "cypress-iframe": "^1.0.1",
+    "cypress-xpath": "^2.0.1",
+    "typescript": "^5.1.3"
+  },
+  "cypress-cucumber-preprocessor": {
+    "json": {
+      "enabled": false,
+      "output": "cypress/cucumberReports/result.json"
+    },
+    "stepDefinitions": [
+      "cypress/e2e/tests/step_definitions/*.{js,ts}"
+    ]
+  }
+}

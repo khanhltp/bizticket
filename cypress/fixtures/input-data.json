@@ -1,0 +1,12 @@
+{
+    "base_url": "https://my.bizdev.vn",
+    "path": {
+        "login": "/login",
+        "project_dashboard": "/du-an/tong-quan/54a306fe-fc84-4264-b6bc-026536502d6e"
+    },
+    "project": {
+        "name": "khanhltp",
+        "solution": "BizTicket"
+    },
+    "file_path": "cypress/fixtures/output-data.json"
+}
