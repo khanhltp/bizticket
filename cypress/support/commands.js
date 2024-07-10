@@ -24,11 +24,13 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
+
+
 Cypress.Commands.add('inputText', function (element, text) {
   element
-    .click()
-    .clear()
-    .type(text)
+    .click( {force: true} )
+    .clear( {force: true} )
+    .type(text, {force: true})
     .invoke('val')
     .then(function (val) {
       expect(val).to.eq(text)
@@ -59,3 +61,48 @@ Cypress.Commands.add('trimSpaceAndCheckText', function(element, expected_text) {
 Cypress.on('uncaught:exception', (err, runnable) => {
   return false
 })
+
+
+import { CreateGroup, EditGroup } from "../e2e/pages/selectors";
+import data from "../fixtures/input-data.json";
+
+let create_group = new CreateGroup();
+
+Cypress.Commands.add('selectOnlyDisplayTodMember', function (member_id, member_name) {
+  cy.checkRadio(create_group.getOnlyDisplayToAsignedMembers());
+  create_group.getDisplayToAllMembers().should('not.be.checked');
+  cy.checkRadio(create_group.getNameOrEmailRadio());
+  create_group.getNameOrEmailTag().select(member_id, {force: true})
+  cy.trimSpaceAndCheckText(create_group.getNameOrEmailText(), member_name)
+  cy.readFile(data.file_path).then(function (group_info) {
+    group_info.display = "only";
+    group_info.viewer = member_name
+    cy.writeFile(data.file_path, group_info);
+  })
+});
+
+Cypress.Commands.add('verifyWhenSelectDisplayToAllMembers', function () {
+  create_group.getDisplayToAllMembers().should('be.checked');
+  create_group.getOnlyDisplayToAsignedMembers().should('not.be.checked');
+  cy.readFile(data.file_path).then(function (group_info) {
+    group_info.display = "all";
+    cy.writeFile(data.file_path, group_info);
+  })
+});
+
+let edit_group = new EditGroup()
+
+Cypress.Commands.add('verifyOnlyDisplayedMember', function (member_or_group_name) {
+  edit_group.getOnlyDisplayToAsignedMembers().should('be.checked');
+  edit_group.getDisplayToAllMembers().should('not.be.checked');
+  cy.trimSpaceAndCheckText(edit_group.getViewer(), member_or_group_name);
+});
+
+Cypress.Commands.add('verifyDisplayToAllMembers', function () {
+  edit_group.getDisplayToAllMembers().should('be.checked');
+  edit_group.getOnlyDisplayToAsignedMembers().should('not.be.checked');
+  // cy.readFile(data.file_path).then(function (group_info) {
+  //   group_info.display = "all";
+  //   cy.writeFile(data.file_path, group_info);
+  // })
+});

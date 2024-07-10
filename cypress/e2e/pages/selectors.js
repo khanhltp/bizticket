@@ -67,9 +67,6 @@ export class BizTicket {
     }
     getTotalTicket() {
         return cy.get('div[class="count-ticket"]')
-        // .invoke('text').then(function(text) {
-        //     return text;
-        // });
     }
     getEachTypeOfTicket() {
         return cy.get('div[class = "lb-status position-relative"]')
@@ -97,15 +94,15 @@ export class BizTicket {
     getMemberEmails() {
         return cy.get('td').find('div[class="email"]')
     }
-    getGroupName() {
-        return cy.get('input[name="name"]')
-    }
-    getGroupDescription() {
-        return cy.get('textarea[name="description"]')
-    }
-    getDisplayToAllMembers() {
-        return cy.get('#a11');
-    }
+    // getGroupName() {
+    //     return cy.get('input[name="name"]')
+    // }
+    // getGroupDescription() {
+    //     return cy.get('textarea[name="description"]')
+    // }
+    // getDisplayToAllMembers() {
+    //     return cy.get('#a11');
+    // }
     getTopOfVerticalMenu() {
         return cy.get('div[class="list list-business"]').find('div[class="text-1"]').eq(0)
     }
@@ -115,28 +112,15 @@ export class BizTicket {
     getViewAllGroups() {
         return cy.get('a[class="btn-view-all-group"]')
     }
-    // getGroupName(text) {
-    //     return cy.xpath(`//div[contains(text(),'${text}')]`)
-    // }
     getRecentlyViewedGroups() {
         return cy.get('div[class="row row-eq-height"]:visible').first()
     }
-    // getAllNameTagsOfRecentlyViewedGroups() {
-    //     return cy.get('div[class="row row-eq-height"]:visible').first().within(function(){
-    //         return cy.get('div[class="text-1"]')
-    //     })
-    // }
     getOtherGroups() {
         return cy.get('div[class="row row-eq-height"]:visible').last()
     }
     getYourCreatedGroups() {
         return cy.get('a[title="Nhóm do bạn tạo"]')
     }
-    // getAllNameTagsOfYourCreatedGroups() {
-    //     // return cy.get('div[class="col-lg-4 mb-4"]')
-    //    return cy.get('div[class="text-1"]')
-    // }
-   
     getCreateTicket() {
         return cy.xpath(`//button[contains(text(),'Tạo ticket')]`).first();
     }
@@ -145,12 +129,6 @@ export class BizTicket {
     }
 }
 export class GroupTable {
-    // getGroupName(group_name) {
-    //     return cy.xpath(`//div[.='${group_name}']`)
-    //     // return cy.xpath(`//div[contains(.,'${group_name}')) and not(contains(.,'${group_name}')]`)
-    //     // return cy.xpath(`//div[normalize-space(text())='${group_name}']`)
-        
-    // }
     getGroupNames() {
         return cy.get('div[class="text-1"]')
     }
@@ -189,8 +167,11 @@ export class CreateGroup {
     getNameOrEmailRadio() {
         return cy.get('#radio21');
     }
-    getNameOrEmailInput() {
-        return cy.get('textarea[class="select2-search__field"]').eq(3);
+    getNameOrEmailTag() {
+        return cy.get('select[name="member[]"]')
+    }
+    getNameOrEmailText() {
+        return cy.get('div[class="text-select"]')
     }
     getGroupNameRadio() {
         return cy.get('##radio22');
@@ -206,13 +187,36 @@ export class CreateGroup {
     }
 }
 export class CreateTicket {
-    getGroupList() {
+    getCreateTicketModal() {
+        return cy.get('div[id="modalCreateGroup"]')
+    }
+    getGroupOption() {
         return cy.get('input[name="business_id"]')
     }
-    getSearchInput() {
-        return cy.get('input[placeholder="Tìm kiếm"]').first()
+    getGroupList() {
+        return cy.get('div[class="dropdown-menu show"]')
     }
-    getSearchOutput(group_name) {
+    getSearchInput() {
+        return cy.get('input[placeholder="Tìm kiếm"]').eq(1)
+    }
+    getGroupValue(group_name) {
         return cy.get(`div[title='${group_name}']`)
+    }
+}
+export class EditGroup {
+    getGroupName() {
+        return cy.get('input[name="name"]')
+    }
+    getGroupDescription() {
+        return cy.get('textarea[name="description"]')
+    }
+    getDisplayToAllMembers() {
+        return cy.get('input[id="a11"]');
+    }
+    getOnlyDisplayToAsignedMembers() {
+        return cy.get('input[id="a12"]');
+    }
+    getViewer() {
+        return cy.get('div[class="text-select"]')
     }
 }

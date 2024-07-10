@@ -8,5 +8,16 @@
         "name": "khanhltp",
         "solution": "BizTicket"
     },
-    "file_path": "cypress/fixtures/output-data.json"
+    "file_path": "cypress/fixtures/output-data.json",
+    "work_flow": {
+        "default": {
+            "value": "668b5fbff86b0b304b0cc517",
+            "text": "Workflow mặc định"
+        },
+        "customize":  {
+            "value": "668b5fbff86b0b304b0cc517",
+            "text": "Workflow tùy chỉnh"
+        }
+    },
+    "account_id": "629ebe65b7255e632546480b" 
 }

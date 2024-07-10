@@ -11,6 +11,7 @@ async function setupNodeEvents(on, config) {
 }
 module.exports = defineConfig({
   projectId: "sjkm3m",
+  // npx cypress run --record --key 2e1ba563-fb92-4234-a84c-bdbaa7cb88e3
 
   e2e: {
     setupNodeEvents(on, config) {
