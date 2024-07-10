@@ -170,14 +170,14 @@ export class CreateGroup {
     getNameOrEmailTag() {
         return cy.get('select[name="member[]"]')
     }
-    getNameOrEmailText() {
-        return cy.get('div[class="text-select"]')
-    }
     getGroupNameRadio() {
-        return cy.get('##radio22');
+        return cy.get('#radio22');
     }
-    getGroupNameInput() {
-        return cy.get('textarea[placeholder="Nhập tên nhóm thành viên"]');
+    getGroupNameTag() {
+        return cy.get('select[name="group[]"');
+    }
+    getSelectedValue() {
+        return cy.get('div[class="text-select"]')
     }
     getSubmit() {
         return cy.get('button[class="btn btn-bizfly btn-create-business has-spinner"]');
@@ -200,7 +200,7 @@ export class CreateTicket {
         return cy.get('input[placeholder="Tìm kiếm"]').eq(1)
     }
     getGroupValue(group_name) {
-        return cy.get(`div[title='${group_name}']`)
+            return cy.get(`div[title='${group_name}']`)
     }
 }
 export class EditGroup {

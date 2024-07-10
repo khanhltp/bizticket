@@ -33,10 +33,10 @@ Then ('Hiển thị đúng thông tin đã nhập trong quá trình tạo nhóm 
         edit_group.getGroupName().should('have.value', group_info.group_name);
         edit_group.getGroupDescription().should('have.value', group_info.group_description);
         if (group_info.display === 'all') {
-            cy.verifyDisplayToAllMembers();
+            cy.verifyDisplayToAll();
             }
         if (group_info.display === 'only') {
-            cy.verifyOnlyDisplayedMember(account.username);
+            cy.verifyDisplayToOnly(group_info.viewer);
             }
         cy.trimSpaceAndCheckText(bizticket.getTopOfVerticalMenu(), group_info.group_name);
     })

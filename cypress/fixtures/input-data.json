@@ -14,10 +14,24 @@
             "value": "668b5fbff86b0b304b0cc517",
             "text": "Workflow mặc định"
         },
-        "customize":  {
+        "customize": {
             "value": "668b5fbff86b0b304b0cc517",
             "text": "Workflow tùy chỉnh"
         }
     },
-    "account_id": "629ebe65b7255e632546480b" 
+    "account_id": "629ebe65b7255e632546480b",
+    "group_member": [
+        {
+          "value": "668b64af1bc9f2d2020e8dc0",
+          "text": "Nhóm thành viên 01"
+        },
+        {
+          "value": "668b65040060eda49405c385",
+          "text": "Nhóm thành viên 02"
+        },
+        {
+          "value": "668b65040060eda49405c385",
+          "text": "Nhóm thành viên 03"
+        }
+      ]
 }
