@@ -71,10 +71,10 @@ export class BizTicket {
     getEachTypeOfTicket() {
         return cy.get('div[class = "lb-status position-relative"]')
     }
-    getSuccessNoti() {
+    getToastMessage() {
         return cy.get('div[class="noty_message"]')
     }
-    getSuccessNotiText() {
+    getMessageText() {
         return cy.get('span[class="noty_text"]').invoke('text').then(function(text) {
             return text;
         });
@@ -94,15 +94,6 @@ export class BizTicket {
     getMemberEmails() {
         return cy.get('td').find('div[class="email"]')
     }
-    // getGroupName() {
-    //     return cy.get('input[name="name"]')
-    // }
-    // getGroupDescription() {
-    //     return cy.get('textarea[name="description"]')
-    // }
-    // getDisplayToAllMembers() {
-    //     return cy.get('#a11');
-    // }
     getTopOfVerticalMenu() {
         return cy.get('div[class="list list-business"]').find('div[class="text-1"]').eq(0)
     }
@@ -146,6 +137,9 @@ export class GroupTable {
     }
 }
 export class CreateGroup {
+    getCreateGroupModal() {
+        return cy.get('div[id="modalCreateGroup"]')
+    }
     getGroupName() {
         return cy.get('input[placeholder="Nhập tên nhóm công việc/dự án/team"]');
     }
@@ -183,7 +177,7 @@ export class CreateGroup {
         return cy.get('button[class="btn btn-bizfly btn-create-business has-spinner"]');
     }
     getCancel() {
-        return cy.get('button[class="btn btn-bizfly btn-create-business has-spinner"]');
+        return cy.get('button[class="btn btn-bizfly btn-close mr-3"]');
     }
 }
 export class CreateTicket {

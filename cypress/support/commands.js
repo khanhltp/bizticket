@@ -33,6 +33,9 @@ Cypress.Commands.add('inputText', function (element, text) {
     .type(text, {force: true})
     .invoke('val')
     .then(function (val) {
+      if(text === '{backspace}') {
+        text = ''
+      }
       expect(val).to.eq(text)
     })
 })
@@ -63,10 +66,34 @@ Cypress.on('uncaught:exception', (err, runnable) => {
   return false
 })
 
-import { CreateGroup, EditGroup } from "../e2e/pages/selectors";
+import { BizTicket, CreateGroup, EditGroup } from "../e2e/pages/selectors";
 import data from "../fixtures/input-data.json";
 
 let create_group = new CreateGroup();
+let bizticket = new BizTicket();
+let edit_group = new EditGroup()
+
+Cypress.Commands.add('inputGroupNameAndGroupDescription', function (group_name, group_description) {
+  cy.inputText(create_group.getGroupName(), group_name);
+  cy.log('alo 3')
+  cy.inputText(create_group.getGroupDescription(), group_description);
+  let group_info = {
+      "group_name": group_name,
+      "group_description": group_description
+  }
+  cy.writeFile(data.file_path, group_info);
+
+})
+
+Cypress.Commands.add('verifyToastMessage', function (message_text) {
+  bizticket.getToastMessage().should('be.visible')
+  bizticket.getMessageText().should('eq', message_text)
+})
+
+Cypress.Commands.add('verifyToastMessage', function (message_text) {
+  bizticket.getToastMessage().should('be.visible')
+  bizticket.getMessageText().should('eq', message_text)
+})
 
 Cypress.Commands.add('verifyWhenSelectDisplayToAllMembers', function () {
   create_group.getDisplayToAllMembers().should('be.checked');
@@ -81,8 +108,11 @@ Cypress.Commands.add('selectOnlyDisplayToMember', function (member_id, member_na
   cy.checkRadio(create_group.getOnlyDisplayToAsignedMembers());
   create_group.getDisplayToAllMembers().should('not.be.checked');
   cy.checkRadio(create_group.getNameOrEmailRadio());
-  create_group.getNameOrEmailTag().select(member_id, {force: true})
-  cy.trimSpaceAndCheckText(create_group.getSelectedValue(), member_name)
+
+  if (member_id !== null ) {
+    create_group.getNameOrEmailTag().select(member_id, {force: true})
+    cy.trimSpaceAndCheckText(create_group.getSelectedValue(), member_name)
+  } 
   cy.readFile(data.file_path).then(function (group_info) {
     group_info.display = "only";
     group_info.viewer = member_name
@@ -94,16 +124,16 @@ Cypress.Commands.add('selectOnlyDisplayToGroup', function (group_value, group_na
   cy.checkRadio(create_group.getOnlyDisplayToAsignedMembers());
   create_group.getDisplayToAllMembers().should('not.be.checked');
   cy.checkRadio(create_group.getGroupNameRadio());
-  create_group.getGroupNameTag().select(group_value, {force: true})
-  cy.trimSpaceAndCheckText(create_group.getSelectedValue(), group_name)
+  if (group_value !== null) {
+    create_group.getGroupNameTag().select(group_value, {force: true})
+    cy.trimSpaceAndCheckText(create_group.getSelectedValue(), group_name)  
+  }
   cy.readFile(data.file_path).then(function (group_info) {
     group_info.display = "only";
     group_info.viewer = group_name
     cy.writeFile(data.file_path, group_info);
   })
 });
-
-let edit_group = new EditGroup()
 
 Cypress.Commands.add('verifyDisplayToOnly', function (member_or_group_name) {
   edit_group.getOnlyDisplayToAsignedMembers().should('be.checked');

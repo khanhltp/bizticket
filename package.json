@@ -11,7 +11,7 @@
   "dependencies": {
     "cypress": "^13.10.0",
     "cypress-mysql": "^1.0.2",
-    "cypress-real-events": "^1.12.0"
+    "cypress-real-events": "^1.13.0"
   },
   "devDependencies": {
     "@badeball/cypress-cucumber-preprocessor": "^20.1.0",

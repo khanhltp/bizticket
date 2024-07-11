@@ -11,9 +11,8 @@ let group_table = new GroupTable();
 let create_ticket = new CreateTicket();
 let edit_group = new EditGroup()
 
-Then('Kiểm tra tạo mới nhóm công việc thành công', function () {
-    bizticket.getSuccessNoti().should('be.visible')
-    bizticket.getSuccessNotiText().should('eq', 'Tạo nhóm công việc thành công!')
+Then('Thông báo {string}', function (message) {
+    cy.verifyToastMessage(message)
 
     cy.readFile(data.file_path).then(function (group_info) {
         bizticket.getGroupTitle().should('eq', group_info.group_name)
@@ -85,7 +84,6 @@ Then ('Nhóm công việc vừa tạo hiển thị ở đầu danh sách Nhóm x
 When ('Tìm kiếm nhóm công việc vừa tạo trong Tất cả nhóm công việc', function() {
     cy.readFile(data.file_path).then(function (group_info) {
         cy.inputText(group_table.getSearchInput(), group_info.group_name)
-        // group_table.getSearchInput().next().next().next().click();
         group_table.getSearchIcon().click();
         group_table.getSearchIcon().click();
     })
@@ -112,7 +110,6 @@ When ('Tìm kiếm nhóm công việc vừa tạo trong Nhóm do bạn tạo', f
         cy.inputText(group_table.getSearchInput(), group_info.group_name)
         group_table.getSearchIcon().click();
         cy.wait(1000)
-        // group_table.getSearchInput().next().next().next().click();
     })
 })
 Then ('Hệ thống trả về kết quả tìm kiếm chứa nhóm công việc vừa tạo', function() {
@@ -151,14 +148,13 @@ Then ('Có hiển thị nhóm công việc vừa tạo trong Tạo ticket', func
             .should('be.exist')
             .should('have.text', group_info.group_name);   
         })
-    })
-   
+    }) 
 })
 When ('Tìm kiếm nhóm công việc vừa tạo', function() {
     cy.readFile(data.file_path).then(function (group_info) {
         cy.inputText(create_ticket.getSearchInput(), group_info.group_name)
         cy.wait(1000);
-})
+    })
 })
 Then ('Hệ thống trả về kết quả tìm kiếm có chứa nhóm công việc vừa tạo', function() {
     cy.readFile(data.file_path).then(function (group_info) {
@@ -166,6 +162,33 @@ Then ('Hệ thống trả về kết quả tìm kiếm có chứa nhóm công vi
             create_ticket.getGroupValue(group_info.group_name)
             .should('be.exist')
             .should('have.text', group_info.group_name);       
+        })
     })
 })
+
+Then ('Hệ thống hiển thị tooltip {string}', function(tooltip_text) {
+    cy.log('Pending: Chưa check được tooltip')
+    // create_group.getGroupName().should('have.text', tooltip_text)
+})
+
+
+Then ('Thông báo {string} khi nhập toàn space vào trường Tên nhóm công việc mới', function(message) {
+    cy.verifyToastMessage(message)
+})
+
+Then ('Thông báo {string} khi nhập toàn space vào trường Mô tả nhóm công việc mới', function(message) {
+    cy.verifyToastMessage(message)
+})
+
+
+Then ('Thông báo {string} khi bỏ trống trường Nhập tên hoặc email thành viên', function(message) {
+    cy.verifyToastMessage(message)  
+})
+
+Then ('Thông báo {string} khi bỏ trống trường Nhập tên nhóm thành viên', function(message) {
+    cy.verifyToastMessage(message)  
+})
+
+Then ('Modal tạo mới nhóm việc làm đóng lại', function() {
+    create_group.getCreateGroupModal().should('not.be.visible')
 })

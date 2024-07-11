@@ -15,46 +15,25 @@ When('Tạo mới nhóm công việc nhập toàn ký tự chữ vào các trư�
     bizticket.getCreateNewGroup().click();
     
     let group_name = faker.string.alpha({ length: { min: 1, max: 10 } })
-    create_group.getGroupName().should('have.attr', 'required');
-    cy.inputText(create_group.getGroupName(), group_name);
-    
-    create_group.getSelectedWorkflow(data.work_flow.default.text).should('be.visible');
-    
-    let group_description = faker.lorem.lines(1).replace(/\.$/, '');
-    create_group.getGroupDescription().should('have.attr', 'required');
-    cy.inputText(create_group.getGroupDescription(), group_description);
-    let group_info = {
-        "group_name": group_name,
-        "group_description": group_description
-    }
-    cy.writeFile(data.file_path, group_info);
-    
+    let group_description = faker.string.alpha({ length: { min: 1, max: 10 } })
+    cy.inputGroupNameAndGroupDescription(group_name, group_description);
+    create_group.getSelectedWorkflow(data.work_flow.default.text).should('be.visible');    
     cy.checkRadio(create_group.getDisplayToAllMembers());
     create_group.getSubmit().click();
-
 });
 
 When('Tạo mới nhóm công việc nhập toàn ký tự số vào các trường bắt buộc, mở droplist chọn giá trị workflow tùy chỉnh và chọn chỉ hiển thị với những thành viên được chỉ định, nhập tên hoặc email thành viên', function () {
     bizticket.getHeaderMenu('Nhóm công việc').click();
     bizticket.getCreateNewGroup().click();
 
-    // let group_name = "0" + `${faker.datatype.number({ min: 0, max: 1000000000000 })}`.toString()
     let group_name = faker.string.numeric({ length: { min: 1, max: 10 } })
-    cy.inputText(create_group.getGroupName(), group_name);
-    
+    let group_description = faker.string.numeric({ length: { min: 1, max: 10 } })
+    cy.inputGroupNameAndGroupDescription(group_name, group_description)
+
     create_group.getSelectedWorkflow(data.work_flow.default.text).should('be.exist');
     create_group.getWorkflowOption().select(data.work_flow.customize.value, {force: true});
     create_group.getSelectedWorkflow(data.work_flow.default.text).should('not.be.exist');
     create_group.getSelectedWorkflow(data.work_flow.customize.text).should('be.exist');
-
-    let group_description = faker.string.numeric({ length: { min: 1, max: 10 } })
-    // "0" + `${faker.datatype.number({ min: 0, max: 1000000000000 })}`.toString()
-    cy.inputText(create_group.getGroupDescription(), group_description);
-    let group_info = {
-        "group_name": group_name,
-        "group_description": group_description
-    }
-    cy.writeFile(data.file_path, group_info);
 
     cy.selectOnlyDisplayToMember(data.account_id, account.username)
     create_group.getSubmit().click();
@@ -67,25 +46,125 @@ When ('Tạo mới nhóm công việc nhập ký tự đặc biệt vào các tr
     bizticket.getCreateNewGroup().click();
 
     let group_name = faker.string.symbol({ min: 1, max: 10 })
-    cy.inputText(create_group.getGroupName(), group_name);
+    let group_description = faker.string.symbol({ min: 1, max: 10 })
+    cy.inputGroupNameAndGroupDescription(group_name, group_description)
     
     create_group.getSelectedWorkflow(data.work_flow.default.text).should('be.exist');
     create_group.getWorkflowOption().select(data.work_flow.customize.value, {force: true});
     create_group.getSelectedWorkflow(data.work_flow.default.text).should('not.be.exist');
     create_group.getSelectedWorkflow(data.work_flow.customize.text).should('be.exist');
 
-    let group_description = faker.string.symbol({ min: 1, max: 10 })
-    cy.inputText(create_group.getGroupDescription(), group_description);
-    let group_info = {
-        "group_name": group_name,
-        "group_description": group_description
-    }
-    cy.writeFile(data.file_path, group_info);
-
-    let random_index = 1
-    cy.log(data.group_member[random_index])
-    cy.log(data.group_member[random_index].value)
-    // faker.datatype.number({ min: 0, max: Object.keys(account.group_member).length });
+    let random_index = faker.number.int( { max: 3 } )
+    // faker.number.int({ min: 0, max: Object.keys(account.group_member).length });
     cy.selectOnlyDisplayToGroup(data.group_member[random_index].value, data.group_member[random_index].text)
     create_group.getSubmit().click();
+})
+
+When ('Tạo mới nhóm công việc nhập chữ, số, ký tự đặc biệt vào tên nhóm công việc và nhập chữ, số, ký tự đặc biệt và có xuống dòng vào mô tả nhóm công việc', function() {
+    bizticket.getHeaderMenu('Nhóm công việc').click();
+    bizticket.getCreateNewGroup().click();
+    
+    let group_name = faker.music.songName() + " "
+    + faker.string.symbol({ min: 1, max: 3 })
+    + faker.string.numeric({ length: { min: 1, max: 3 } });
+    let group_description = faker.lorem.lines( { min: 2, max: 5 } ).replace(/\.$/, '');
+    cy.inputGroupNameAndGroupDescription(group_name, group_description)
+    
+    create_group.getSelectedWorkflow(data.work_flow.default.text).should('be.visible');
+    cy.checkRadio(create_group.getDisplayToAllMembers());
+    create_group.getSubmit().click();
+});
+
+When ('Tạo mới nhóm công việc bỏ trống trường Tên nhóm công việc mới', function() {
+    bizticket.getHeaderMenu('Nhóm công việc').click();
+    bizticket.getCreateNewGroup().click();
+    
+    create_group.getGroupName().should('have.attr', 'required');
+    let group_description = faker.music.songName()
+    cy.inputGroupNameAndGroupDescription('{backspace}', group_description)
+
+    // Chưa check đc tooltip
+    // create_group.getGroupName().realHover()
+    // create_group.getGroupName().should('have.text', 'Please fill out this field')
+
+    create_group.getSelectedWorkflow(data.work_flow.default.text).should('be.visible');
+    
+    cy.checkRadio(create_group.getDisplayToAllMembers());
+    create_group.getSubmit().click();
+})
+
+When ('Tạo mới nhóm công việc nhập toàn space vào trường Tên nhóm công việc mới', function() {
+    bizticket.getHeaderMenu('Nhóm công việc').click();
+    bizticket.getCreateNewGroup().click();
+    
+    let group_description = faker.music.songName();
+    cy.inputGroupNameAndGroupDescription("          ", group_description)
+
+    create_group.getSelectedWorkflow(data.work_flow.default.text).should('be.visible');
+    cy.checkRadio(create_group.getDisplayToAllMembers());
+    create_group.getSubmit().click();
+})
+
+When ('Tạo mới nhóm công việc bỏ trống trường Mô tả nhóm công việc mới', function() {
+    bizticket.getHeaderMenu('Nhóm công việc').click();
+    bizticket.getCreateNewGroup().click();
+    
+    create_group.getGroupDescription().should('have.attr', 'required');
+    let group_name = faker.music.songName()
+    cy.inputGroupNameAndGroupDescription(group_name, '{backspace}')
+    
+    create_group.getSelectedWorkflow(data.work_flow.default.text).should('be.visible');
+    cy.checkRadio(create_group.getDisplayToAllMembers());
+    create_group.getSubmit().click();
+})
+
+When ('Tạo mới nhóm công việc nhập toàn space vào trường Mô tả nhóm công việc mới', function() {
+    bizticket.getHeaderMenu('Nhóm công việc').click();
+    bizticket.getCreateNewGroup().click();
+    
+    let group_name = faker.music.songName()
+    cy.inputGroupNameAndGroupDescription(group_name, "          ")
+
+    create_group.getSelectedWorkflow(data.work_flow.default.text).should('be.visible');
+    cy.checkRadio(create_group.getDisplayToAllMembers());
+    create_group.getSubmit().click();
+})
+
+When ('Tạo mới nhóm công việc bỏ trống trường Nhập tên hoặc email thành viên', function() {
+    bizticket.getHeaderMenu('Nhóm công việc').click();
+    bizticket.getCreateNewGroup().click();
+
+    let group_name = faker.music.songName()
+    let group_description = faker.music.songName()
+    cy.inputGroupNameAndGroupDescription(group_name, group_description)
+
+    create_group.getSelectedWorkflow(data.work_flow.default.text).should('be.visible');
+
+    cy.selectOnlyDisplayToMember(null)
+    create_group.getSubmit().click();
+})
+
+When ('Tạo mới nhóm công việc bỏ trống trường Nhập tên nhóm thành viên', function() {
+    bizticket.getHeaderMenu('Nhóm công việc').click();
+    bizticket.getCreateNewGroup().click();
+
+    let group_name = faker.music.songName()
+    let group_description = faker.music.songName()
+    cy.inputGroupNameAndGroupDescription(group_name, group_description)
+
+    create_group.getSelectedWorkflow(data.work_flow.default.text).should('be.visible');
+
+    cy.selectOnlyDisplayToGroup(null)
+    create_group.getSubmit().click();
+})
+
+When ('Tạo mới nhóm việc làm và bấm Hủy', function() {
+    bizticket.getHeaderMenu('Nhóm công việc').click();
+    create_group.getCreateGroupModal().should('not.be.visible');
+    
+    bizticket.getCreateNewGroup().click();
+    create_group.getCreateGroupModal().should('be.visible');
+
+    create_group.getCancel().dblclick();
+    cy.wait(1000)
 })
