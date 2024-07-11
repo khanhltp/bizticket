@@ -19,13 +19,6 @@
             "text": "Workflow tùy chỉnh"
         }
     },
-    "message": {
-        "success": "khanhltp",
-        "no_group_name": "Mời nhập tên nhóm công việc!",
-        "no_group_description": "Mời nhập mô tả nhóm công việc!",
-        "no_member": "Mời nhập thành viên",
-        "no_group_member": "Mời nhập nhóm thành viên"
-    },
     "account_id": "629ebe65b7255e632546480b",
     "group_member": [
         {
