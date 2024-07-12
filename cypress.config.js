@@ -23,6 +23,7 @@ module.exports = defineConfig({
     setupNodeEvents,
     defaultCommandTimeout: 10000,
     pageLoadTimeout: 60000,
+    video: false
     // setupNodeEvents(on, config) {
 
     //   mysql.configurePlugin(on);
@@ -43,7 +44,7 @@ module.exports = defineConfig({
 
     //   }
     // },
-  },
+  }
 });
 
 

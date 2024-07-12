@@ -193,8 +193,8 @@ export class CreateTicket {
     getSearchInput() {
         return cy.get('input[placeholder="Tìm kiếm"]').eq(1)
     }
-    getGroupValue(group_name) {
-            return cy.get(`div[title='${group_name}']`)
+    getGroupValue() {
+        return cy.get('div[data-toggle="tooltip"]').last()
     }
 }
 export class EditGroup {
@@ -210,7 +210,47 @@ export class EditGroup {
     getOnlyDisplayToAsignedMembers() {
         return cy.get('input[id="a12"]');
     }
+    getAvatar() {
+        return cy.get('input[id="file"]')
+    }
     getViewer() {
         return cy.get('div[class="text-select"]')
+    }
+    getHandlerOption() {
+        return cy.get('select[name="handler_id[]"]')
+    }
+    getRelatedPersonOption() {
+        return cy.get('select[name="related_id[]"]')
+    }
+    getAcceptPersonOption() {
+        return cy.get('select[name="assign_id[]"]')
+    }
+    getAssignCreatorAsHandler() {
+        return cy.get('div[class="form-group mt-4"]').eq(0)
+    }
+    getAssignCreatorAsRelatedPerson() {
+        return cy.get('div[class="form-group mt-4"]').eq(1)
+    }
+    getAssignCreatorAsAcceptPerson() {
+        return cy.get('div[class="form-group mt-4"]').eq(2)
+    }
+    getAssignCreatorAsSupervisor() {
+        return cy.get('div[class="form-group mt-4"]').eq(3)
+    }
+    getFinishTicketRole() {
+        return cy.get('div[class="form-group mt-4"]').eq(4)
+    }
+    getSettingSendNoti() {
+        return cy.get('div[class="form-group mt-4"]').eq(5)
+    }
+    getTicketViewType() {
+        // return cy.get('class="form-group mt-4"').eq(6)
+        return cy.get('option[data-select2-id="select2-data-28-pmxm"]')
+    }
+    getTicketViewPermission() {
+        return cy.get('div[class="form-group mt-4"]').eq(7)
+    }
+    getSubmit() {
+        return cy.get('button[class="btn btn-bizfly mr-3"]')
     }
 }

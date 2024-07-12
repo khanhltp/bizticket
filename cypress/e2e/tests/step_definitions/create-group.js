@@ -11,9 +11,6 @@ let group_table = new GroupTable();
 let create_ticket = new CreateTicket();
 
 When('Tạo mới nhóm công việc nhập toàn ký tự chữ vào các trường bắt buộc, giữ nguyên giá trị workflow mặc định và chọn hiển thị với tất cả thành viên trong dự án', function () {
-    bizticket.getHeaderMenu('Nhóm công việc').click();
-    bizticket.getCreateNewGroup().click();
-    
     let group_name = faker.string.alpha({ length: { min: 1, max: 10 } })
     let group_description = faker.string.alpha({ length: { min: 1, max: 10 } })
     cy.inputGroupNameAndGroupDescription(group_name, group_description);
@@ -23,9 +20,6 @@ When('Tạo mới nhóm công việc nhập toàn ký tự chữ vào các trư�
 });
 
 When('Tạo mới nhóm công việc nhập toàn ký tự số vào các trường bắt buộc, mở droplist chọn giá trị workflow tùy chỉnh và chọn chỉ hiển thị với những thành viên được chỉ định, nhập tên hoặc email thành viên', function () {
-    bizticket.getHeaderMenu('Nhóm công việc').click();
-    bizticket.getCreateNewGroup().click();
-
     let group_name = faker.string.numeric({ length: { min: 1, max: 10 } })
     let group_description = faker.string.numeric({ length: { min: 1, max: 10 } })
     cy.inputGroupNameAndGroupDescription(group_name, group_description)
@@ -37,16 +31,11 @@ When('Tạo mới nhóm công việc nhập toàn ký tự số vào các trư�
 
     cy.selectOnlyDisplayToMember(data.account_id, account.username)
     create_group.getSubmit().click();
-
-   
 });
 
 When ('Tạo mới nhóm công việc nhập ký tự đặc biệt vào các trường bắt buộc và chọn chỉ hiển thị với những thành viên được chỉ định, nhập tên nhóm thành viên', function() {
-    bizticket.getHeaderMenu('Nhóm công việc').click();
-    bizticket.getCreateNewGroup().click();
-
-    let group_name = faker.string.symbol({ min: 1, max: 10 })
-    let group_description = faker.string.symbol({ min: 1, max: 10 })
+    let group_name = '#' + faker.string.symbol({ min: 1, max: 5 }) + '!'
+    let group_description = '#' + faker.string.symbol({ min: 1, max: 5 }) + '!'
     cy.inputGroupNameAndGroupDescription(group_name, group_description)
     
     create_group.getSelectedWorkflow(data.work_flow.default.text).should('be.exist');
@@ -61,9 +50,6 @@ When ('Tạo mới nhóm công việc nhập ký tự đặc biệt vào các tr
 })
 
 When ('Tạo mới nhóm công việc nhập chữ, số, ký tự đặc biệt vào tên nhóm công việc và nhập chữ, số, ký tự đặc biệt và có xuống dòng vào mô tả nhóm công việc', function() {
-    bizticket.getHeaderMenu('Nhóm công việc').click();
-    bizticket.getCreateNewGroup().click();
-    
     let group_name = faker.music.songName() + " "
     + faker.string.symbol({ min: 1, max: 3 })
     + faker.string.numeric({ length: { min: 1, max: 3 } });
@@ -76,9 +62,6 @@ When ('Tạo mới nhóm công việc nhập chữ, số, ký tự đặc biệt
 });
 
 When ('Tạo mới nhóm công việc bỏ trống trường Tên nhóm công việc mới', function() {
-    bizticket.getHeaderMenu('Nhóm công việc').click();
-    bizticket.getCreateNewGroup().click();
-    
     create_group.getGroupName().should('have.attr', 'required');
     let group_description = faker.music.songName()
     cy.inputGroupNameAndGroupDescription('{backspace}', group_description)
@@ -94,9 +77,6 @@ When ('Tạo mới nhóm công việc bỏ trống trường Tên nhóm công vi
 })
 
 When ('Tạo mới nhóm công việc nhập toàn space vào trường Tên nhóm công việc mới', function() {
-    bizticket.getHeaderMenu('Nhóm công việc').click();
-    bizticket.getCreateNewGroup().click();
-    
     let group_description = faker.music.songName();
     cy.inputGroupNameAndGroupDescription("          ", group_description)
 
@@ -106,9 +86,6 @@ When ('Tạo mới nhóm công việc nhập toàn space vào trường Tên nh�
 })
 
 When ('Tạo mới nhóm công việc bỏ trống trường Mô tả nhóm công việc mới', function() {
-    bizticket.getHeaderMenu('Nhóm công việc').click();
-    bizticket.getCreateNewGroup().click();
-    
     create_group.getGroupDescription().should('have.attr', 'required');
     let group_name = faker.music.songName()
     cy.inputGroupNameAndGroupDescription(group_name, '{backspace}')
@@ -119,9 +96,6 @@ When ('Tạo mới nhóm công việc bỏ trống trường Mô tả nhóm côn
 })
 
 When ('Tạo mới nhóm công việc nhập toàn space vào trường Mô tả nhóm công việc mới', function() {
-    bizticket.getHeaderMenu('Nhóm công việc').click();
-    bizticket.getCreateNewGroup().click();
-    
     let group_name = faker.music.songName()
     cy.inputGroupNameAndGroupDescription(group_name, "          ")
 
@@ -131,9 +105,6 @@ When ('Tạo mới nhóm công việc nhập toàn space vào trường Mô tả
 })
 
 When ('Tạo mới nhóm công việc bỏ trống trường Nhập tên hoặc email thành viên', function() {
-    bizticket.getHeaderMenu('Nhóm công việc').click();
-    bizticket.getCreateNewGroup().click();
-
     let group_name = faker.music.songName()
     let group_description = faker.music.songName()
     cy.inputGroupNameAndGroupDescription(group_name, group_description)
@@ -145,9 +116,6 @@ When ('Tạo mới nhóm công việc bỏ trống trường Nhập tên hoặc 
 })
 
 When ('Tạo mới nhóm công việc bỏ trống trường Nhập tên nhóm thành viên', function() {
-    bizticket.getHeaderMenu('Nhóm công việc').click();
-    bizticket.getCreateNewGroup().click();
-
     let group_name = faker.music.songName()
     let group_description = faker.music.songName()
     cy.inputGroupNameAndGroupDescription(group_name, group_description)
@@ -158,13 +126,8 @@ When ('Tạo mới nhóm công việc bỏ trống trường Nhập tên nhóm t
     create_group.getSubmit().click();
 })
 
-When ('Tạo mới nhóm việc làm và bấm Hủy', function() {
-    bizticket.getHeaderMenu('Nhóm công việc').click();
-    create_group.getCreateGroupModal().should('not.be.visible');
-    
-    bizticket.getCreateNewGroup().click();
+When ('Tạo mới nhóm công việc và bấm Hủy', function() {
     create_group.getCreateGroupModal().should('be.visible');
-
     create_group.getCancel().dblclick();
     cy.wait(1000)
 })

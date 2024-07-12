@@ -82,7 +82,16 @@ Cypress.Commands.add('inputGroupNameAndGroupDescription', function (group_name, 
       "group_description": group_description
   }
   cy.writeFile(data.file_path, group_info);
+})
 
+Cypress.Commands.add('editGroupNameAndGroupDescription', function (group_name, group_description) {
+  cy.inputText(edit_group.getGroupName(), group_name);
+  cy.inputText(edit_group.getGroupDescription(), group_description);
+  let group_info = {
+      "group_name": group_name,
+      "group_description": group_description
+  }
+  cy.writeFile(data.file_path, group_info);
 })
 
 Cypress.Commands.add('verifyToastMessage', function (message_text) {
@@ -144,4 +153,45 @@ Cypress.Commands.add('verifyDisplayToOnly', function (member_or_group_name) {
 Cypress.Commands.add('verifyDisplayToAll', function () {
   edit_group.getDisplayToAllMembers().should('be.checked');
   edit_group.getOnlyDisplayToAsignedMembers().should('not.be.checked');
+});
+
+let getUnselectedValue = function(selected_value) {
+  if (selected_value === 0) {
+    return 1
+  }
+  if (selected_value === 1) {
+    return 0
+  }
+}
+
+Cypress.Commands.add('selectRadioInGeneralInfo', function (element, selected_value) {
+  element.find(`input[value=${selected_value}]`).check().should('be.checked');
+  let unselected_value = getUnselectedValue(selected_value);
+  // element
+  cy.get('div[class="form-group mt-4"]').eq(0)
+  .find(`input[value=${unselected_value}]`).should('not.be.checked');
+  // cy.get('div[class="form-group mt-4"]').eq(0)
+  cy.readFile(data.file_path).then(function (group_info) {
+    // element
+    cy.get('div[class="form-group mt-4"]').eq(0)
+    .find(`input[value=${selected_value}]`).invoke('name').then(function (name) {
+      group_info.assign_creator = {
+        "name": name,
+        "value": selected_value
+        }
+      cy.writeFile(data.file_path, group_info);
+    });
+  });
+});
+
+Cypress.Commands.add('verifyRadioInGeneralInfo', function (element) {
+  cy.readFile(data.file_path).then(function (group_info) {
+    element.find(`input[name=${group_info.assign_creator.name}]`)
+    .find(`input[value=${group_info.assign_creator.value}]`)
+    .should('be.checked')
+    let unselected_value = getUnselectedValue(selected_value);
+    element.find(`input[name=${group_info.assign_creator.name}]`)
+    .find(`input[value=${unselected_value}]`)
+    .should('not.be.checked')
+  });
 });
