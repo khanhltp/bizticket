@@ -210,20 +210,26 @@ export class EditGroup {
     getOnlyDisplayToAsignedMembers() {
         return cy.get('input[id="a12"]');
     }
+    getAsignedMembers() {
+        return cy.get('select[name="members[]"]')
+    }
     getAvatar() {
         return cy.get('input[id="file"]')
     }
     getViewer() {
         return cy.get('div[class="text-select"]')
     }
-    getHandlerOption() {
-        return cy.get('select[name="handler_id[]"]')
+    getDefaultHandler() {
+        // return cy.get('select[name="handler_id[]"]')
+        return cy.get('div[class="bl-setting_group-index"]').find('div[class="form-group"]').eq(1)
     }
-    getRelatedPersonOption() {
-        return cy.get('select[name="related_id[]"]')
+    getDefaultRelatedPerson() {
+        // return cy.get('select[name="related_id[]"]')
+        return cy.get('div[class="bl-setting_group-index"]').find('div[class="form-group"]').eq(2)
     }
-    getAcceptPersonOption() {
-        return cy.get('select[name="assign_id[]"]')
+    getDefaultAcceptPerson() {
+        // return cy.get('select[name="assign_id[]"]')
+        return cy.get('div[class="bl-setting_group-index"]').find('div[class="form-group"]').eq(3)
     }
     getAssignCreatorAsHandler() {
         return cy.get('div[class="form-group mt-4"]').eq(0)
@@ -243,12 +249,20 @@ export class EditGroup {
     getSettingSendNoti() {
         return cy.get('div[class="form-group mt-4"]').eq(5)
     }
-    getTicketViewType() {
+    getTicketCreateType() {
+        return cy.get('div[class="form-group  mt-4"]').eq(0)
+    }
+    getSelectTicketViewType() {
         // return cy.get('class="form-group mt-4"').eq(6)
-        return cy.get('option[data-select2-id="select2-data-28-pmxm"]')
+        // return cy.get('select[data-select2-id="select2-data-28-pmxm"]')
+        return cy.get('div[class="form-group mt-4"]').eq(6).find('select[name="default_screen"]')
+    }
+    getSelectedTicketViewType() {
+        // return cy.get('class="form-group mt-4"').eq(6)
+        return cy.get('div[class="form-group mt-4"]').eq(6).find('span[role="textbox"]')
     }
     getTicketViewPermission() {
-        return cy.get('div[class="form-group mt-4"]').eq(7)
+        return cy.get('div[class="form-group  mt-4"]').eq(1)
     }
     getSubmit() {
         return cy.get('button[class="btn btn-bizfly mr-3"]')

@@ -15,11 +15,11 @@ Then('Thông báo {string} khi tạo mới thành công', function (message) {
     cy.verifyToastMessage(message)
 
     cy.readFile(data.file_path).then(function (group_info) {
-        bizticket.getGroupTitle().should('eq', group_info.group_name)
+        bizticket.getGroupTitle().should('eq', group_info.group_name);
     })
     cy.trimSpaceAndCheckText(bizticket.getTotalTicket(), '0 Ticket')
     bizticket.getEachTypeOfTicket().each(($type) => {
-        expect($type.text().trim()).to.contain('(0)')
+        expect($type.text().trim()).to.contain('(0)');
     });
 });
 
@@ -35,7 +35,7 @@ Then ('Hiển thị đúng thông tin đã nhập trong quá trình tạo nhóm 
             cy.verifyDisplayToAll();
             }
         if (group_info.display === 'only') {
-            cy.verifyDisplayToOnly(group_info.viewer);
+            cy.verifyDisplayToOnly();
             }
         cy.trimSpaceAndCheckText(bizticket.getTopOfVerticalMenu(), group_info.group_name);
     });
@@ -75,22 +75,22 @@ When ('Click Xem tất cả nhóm công việc', function() {
 Then ('Nhóm công việc vừa tạo hiển thị ở đầu danh sách Nhóm xem gần đây', function() {
     cy.readFile(data.file_path).then(function (group_info) {
         bizticket.getRecentlyViewedGroups().within(function(){
-            cy.trimSpaceAndCheckText(group_table.getGroupNames().first(), group_info.group_name)
-            cy.trimSpaceAndCheckText(group_table.getGroupDescriptions().first(), group_info.group_description)
+            cy.trimSpaceAndCheckText(group_table.getGroupNames().first(), group_info.group_name);
+            cy.trimSpaceAndCheckText(group_table.getGroupDescriptions().first(), group_info.group_description);
         });
     });
 });
 
 When ('Tìm kiếm nhóm công việc vừa tạo trong Tất cả nhóm công việc', function() {
     cy.readFile(data.file_path).then(function (group_info) {
-        cy.inputText(group_table.getSearchInput(), group_info.group_name)
+        cy.inputText(group_table.getSearchInput(), group_info.group_name);
         group_table.getSearchIcon().click();
         group_table.getSearchIcon().click();
     });
 });
 
 Then ('Hệ thống trả về kết quả tìm kiếm có nhóm công việc vừa tạo', function() {
-    cy.log('Pending: Tìm kiếm không trả về kết quả')
+    cy.log('Pending: Tìm kiếm không trả về kết quả');
 });
 
 
@@ -101,8 +101,8 @@ When ('Xem Nhóm do bạn tạo', function() {
 Then ('Nhóm công việc vừa tạo hiển thị ở cuối danh sách Nhóm do bạn tạo', function() {
     cy.readFile(data.file_path).then(function (group_info) {
         // group_table.getGroupName(group_info.group_name).should('be.visible');
-        cy.trimSpaceAndCheckText(group_table.getGroupNames().last(), group_info.group_name)
-        cy.trimSpaceAndCheckText(group_table.getGroupDescriptions().last(), group_info.group_description)
+        cy.trimSpaceAndCheckText(group_table.getGroupNames().last(), group_info.group_name);
+        cy.trimSpaceAndCheckText(group_table.getGroupDescriptions().last(), group_info.group_description);
     })
 });
 
@@ -153,7 +153,7 @@ Then ('Hiển thị nhóm công việc vừa tạo ở cuối danh sách', funct
 });
 When ('Tìm kiếm nhóm công việc vừa tạo', function() {
     cy.readFile(data.file_path).then(function (group_info) {
-        cy.inputText(create_ticket.getSearchInput(), group_info.group_name)
+        cy.inputText(create_ticket.getSearchInput(), group_info.group_name);
         cy.wait(1000);
     });
 });
@@ -192,7 +192,82 @@ Then ('Modal tạo mới nhóm việc làm đóng lại', function() {
     create_group.getCreateGroupModal().should('not.be.visible');
 });
 
-Then ('Thông báo {string} khi chỉnh sửa thành công', function(message){
+Then ('Hệ thống thông báo {string} khi chỉnh sửa theo testcase edit_group_01', function(message){
     cy.verifyToastMessage(message);
-    cy.verifyRadioInGeneralInfo(edit_group.getAssignCreatorAsHandler())  
+    cy.readFile(data.file_path).then(function (group_info) {
+        edit_group.getGroupName().should('have.value', group_info.group_name);
+        edit_group.getGroupDescription().should('have.value', group_info.group_description);
+    })
+    cy.verifyDisplayToAll();
+    
+    edit_group.getDefaultHandler().find('div[class="text-select"]').should('not.be.exist');
+    edit_group.getDefaultRelatedPerson().find('div[class="text-select"]').should('not.be.exist');
+    edit_group.getDefaultAcceptPerson().find('div[class="text-select"]').should('not.be.exist');
+    
+    cy.verifyRadioInGeneralInfo(edit_group.getAssignCreatorAsHandler());
+    cy.verifyRadioInGeneralInfo(edit_group.getAssignCreatorAsRelatedPerson());
+    cy.verifyRadioInGeneralInfo(edit_group.getAssignCreatorAsAcceptPerson());
+    cy.verifyRadioInGeneralInfo(edit_group.getAssignCreatorAsSupervisor());
+    cy.verifyRadioInGeneralInfo(edit_group.getFinishTicketRole());
+    cy.verifyRadioInGeneralInfo(edit_group.getSettingSendNoti());
+    cy.verifyRadioInGeneralInfo(edit_group.getTicketCreateType());
+    edit_group.getSelectTicketViewType().should('have.value', 'bang');
+    cy.verifyRadioInGeneralInfo(edit_group.getTicketViewPermission());
 });
+
+Then ('Hệ thống thông báo {string} khi chỉnh sửa theo testcase edit_group_02', function(message){
+    cy.verifyToastMessage(message);
+    cy.readFile(data.file_path).then(function (group_info) {
+        edit_group.getGroupName().should('have.value', group_info.group_name);
+        edit_group.getGroupDescription().should('have.value', group_info.group_description);
+    })
+    cy.verifyDisplayToOnly();
+    // edit_group.getAsignedMembers().should('have.value', data.account_id)
+
+    cy.verifyDropdownInGeneralInfo(edit_group.getDefaultHandler());
+    cy.verifyDropdownInGeneralInfo(edit_group.getDefaultRelatedPerson());
+    cy.verifyDropdownInGeneralInfo(edit_group.getDefaultAcceptPerson());
+
+    cy.verifyRadioInGeneralInfo(edit_group.getAssignCreatorAsHandler());
+    cy.verifyRadioInGeneralInfo(edit_group.getAssignCreatorAsRelatedPerson());
+    cy.verifyRadioInGeneralInfo(edit_group.getAssignCreatorAsAcceptPerson());
+    cy.verifyRadioInGeneralInfo(edit_group.getAssignCreatorAsSupervisor());
+    cy.verifyRadioInGeneralInfo(edit_group.getFinishTicketRole());
+    cy.verifyRadioInGeneralInfo(edit_group.getSettingSendNoti());
+    cy.verifyRadioInGeneralInfo(edit_group.getTicketCreateType());
+    edit_group.getSelectTicketViewType().should('have.value', 'danhsach');
+    cy.verifyRadioInGeneralInfo(edit_group.getTicketViewPermission());
+
+})
+
+Then ('Hệ thống thông báo {string} khi chỉnh sửa theo testcase edit_group_03', function(message){
+    cy.verifyToastMessage(message);
+    cy.readFile(data.file_path).then(function (group_info) {
+        edit_group.getGroupName().should('have.value', group_info.group_name);
+        edit_group.getGroupDescription().should('have.value', group_info.group_description);
+    })
+    cy.verifyDisplayToOnly()
+    cy.readFile(data.file_path).then(function (group_info) {
+        cy.trimSpaceAndCheckText(edit_group.getViewer().last(), group_info.viewer);
+    })
+    
+    cy.verifyDropdownInGeneralInfo(edit_group.getDefaultHandler());
+    cy.verifyDropdownInGeneralInfo(edit_group.getDefaultRelatedPerson());
+    cy.verifyDropdownInGeneralInfo(edit_group.getDefaultAcceptPerson());
+
+    edit_group.getSelectTicketViewType().should('have.value', 'lich');
+})
+
+Then ('Hệ thống thông báo {string} khi chỉnh sửa theo testcase edit_group_04', function(message) {
+    cy.verifyToastMessage(message);
+    cy.readFile(data.file_path).then(function (group_info) {
+        edit_group.getGroupName().should('have.value', group_info.group_name);
+        edit_group.getGroupDescription().should('have.value', group_info.group_description);
+    })
+    edit_group.getSelectTicketViewType().should('have.value', 'bangbieu');
+})
+
+When ('Hệ thống thông báo {string} khi chỉnh sửa theo testcase edit_group_05', function(message) {
+    cy.verifyToastMessage(message);
+    edit_group.getSelectTicketViewType().should('have.value', 'baocao');
+})

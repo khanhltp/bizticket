@@ -11,7 +11,6 @@ let group_table = new GroupTable();
 let create_ticket = new CreateTicket();
 
 Given('Đăng nhập hệ thống và truy cập màn hình Tạo mới nhóm công việc', function () {
-    // cy.loginAndAccessBizTicket()
     bizfly.visitURL(data.base_url + data.path.login)
     cy.inputText(bizfly.getUsername(), account.username);
     bizfly.getNext().click();
@@ -31,16 +30,16 @@ Given('Đăng nhập hệ thống và truy cập màn hình Tạo mới nhóm c�
     bizticket.getCreateNewGroup().click();
 });
 
-Given ('Đăng nhập hệ thống và truy cập cài đặt nhóm công việc gần nhất', function() {
-    bizfly.visitURL(data.base_url + data.path.login)
-    cy.inputText(bizfly.getUsername(), account.username);
-    bizfly.getNext().click();
-    cy.inputText(bizfly.getPassword(), account.password);
-    bizfly.getLogin().click();
-    cy.wait(8000);
+// Given ('Đăng nhập hệ thống và truy cập cài đặt nhóm công việc gần nhất', function() {
+//     bizfly.visitURL(data.base_url + data.path.login)
+//     cy.inputText(bizfly.getUsername(), account.username);
+//     bizfly.getNext().click();
+//     cy.inputText(bizfly.getPassword(), account.password);
+//     bizfly.getLogin().click();
+//     cy.wait(8000);
 
-    cy.visit('https://ticket.bizdev.vn/?project_token=08fabe86-a288-4ab3-a32c-e1337e5dcec3')
-    bizticket.getHeaderMenu('Nhóm công việc').click();
-    bizticket.getMostRecentGroup().click();
-    bizticket.getGroupSetting().click();
-})
+//     cy.visit('https://ticket.bizdev.vn/?project_token=08fabe86-a288-4ab3-a32c-e1337e5dcec3')
+//     bizticket.getHeaderMenu('Nhóm công việc').click();
+//     bizticket.getMostRecentGroup().click();
+//     bizticket.getGroupSetting().click();
+// })
