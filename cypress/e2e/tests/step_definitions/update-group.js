@@ -127,9 +127,20 @@ When ('Chỉnh sửa nhóm công việc vừa tạo nhập chữ, số, ký tự
     let group_description = faker.lorem.lines(1).replace(/\.$/, '');
     cy.editGroupNameAndGroupDescription(group_name, group_description);
 
+    let random_index = faker.number.int( {max: 2 } );
+    let group_member_value = data.group_member[random_index].value + "_group";
+    let group_member_text = data.group_member[random_index].text;
+    let selected_value_arr = [data.account_id,group_member_value];
+    let selected_text_arr = [account.username,group_member_text];
+
+    cy.selectMultipleOptionsInGeneralInfo(edit_group.getDefaultHandler(),selected_value_arr,selected_text_arr);
+    cy.selectMultipleOptionsInGeneralInfo(edit_group.getDefaultRelatedPerson(),selected_value_arr,selected_text_arr);
+    cy.selectMultipleOptionsInGeneralInfo(edit_group.getDefaultAcceptPerson(),selected_value_arr,selected_text_arr);
+
     edit_group.getSelectTicketViewType()
     .select('bangbieu', { force: true })
     .should('have.value', 'bangbieu');
+    
     edit_group.getSubmit().click();
 })
 

@@ -260,10 +260,9 @@ Then ('Hệ thống thông báo {string} khi chỉnh sửa theo testcase edit_gr
 
 Then ('Hệ thống thông báo {string} khi chỉnh sửa theo testcase edit_group_04', function(message) {
     cy.verifyToastMessage(message);
-    cy.readFile(data.file_path).then(function (group_info) {
-        edit_group.getGroupName().should('have.value', group_info.group_name);
-        edit_group.getGroupDescription().should('have.value', group_info.group_description);
-    })
+    cy.verifyMultipleOptionsInGeneralInfo(edit_group.getDefaultHandler());
+    cy.verifyMultipleOptionsInGeneralInfo(edit_group.getDefaultRelatedPerson());
+    cy.verifyMultipleOptionsInGeneralInfo(edit_group.getDefaultAcceptPerson());
     edit_group.getSelectTicketViewType().should('have.value', 'bangbieu');
 })
 

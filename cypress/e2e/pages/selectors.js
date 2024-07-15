@@ -220,15 +220,12 @@ export class EditGroup {
         return cy.get('div[class="text-select"]')
     }
     getDefaultHandler() {
-        // return cy.get('select[name="handler_id[]"]')
         return cy.get('div[class="bl-setting_group-index"]').find('div[class="form-group"]').eq(1)
     }
     getDefaultRelatedPerson() {
-        // return cy.get('select[name="related_id[]"]')
         return cy.get('div[class="bl-setting_group-index"]').find('div[class="form-group"]').eq(2)
     }
     getDefaultAcceptPerson() {
-        // return cy.get('select[name="assign_id[]"]')
         return cy.get('div[class="bl-setting_group-index"]').find('div[class="form-group"]').eq(3)
     }
     getAssignCreatorAsHandler() {

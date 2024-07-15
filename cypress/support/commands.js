@@ -218,3 +218,34 @@ Cypress.Commands.add('verifyDropdownInGeneralInfo', function (element) {
     });
   });
 });
+
+Cypress.Commands.add('selectMultipleOptionsInGeneralInfo', function (element, selected_value_arr, selected_text_arr) {
+  element.then(function(element) {
+    cy.wrap(element).find('select').select(selected_value_arr, { force: true } );
+    cy.wrap(element).find('label').invoke('text').then(function(label_text) {
+      cy.readFile(data.file_path).then(function (group_info) {
+        group_info[label_text] = selected_text_arr;
+        cy.writeFile(data.file_path, group_info);
+      });
+    });
+  });
+});
+
+Cypress.Commands.add('verifyMultipleOptionsInGeneralInfo', function (element) {
+  element.then(function(element) {
+    cy.readFile(data.file_path).then(function (group_info) {
+        cy.wrap(element).find('label').invoke('text').then(function(label_text) {
+        let selected_name_arr = group_info[label_text];
+        cy.wrap(element).find('div[class="text-select"]').should('have.length', selected_name_arr.length);
+        selected_name_arr.forEach(function(selected_name) {
+          cy.wrap(element).find('div[class="text-select"]').each(function($selected_option) {
+            let selected_option_text = $selected_option.text().trim();
+            if (selected_option_text == selected_name) {
+              expect(selected_option_text).to.equal(selected_name);
+            }
+          })
+        })
+      });
+    });
+  });
+});
