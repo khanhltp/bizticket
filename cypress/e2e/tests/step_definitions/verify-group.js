@@ -50,6 +50,7 @@ Then ('Hiển thị danh sách thành viên có bao gồm người tạo dự á
         let email_text = $email_tag.text().trim();
         if (email_text === account.username) {
             // expect($email_tag).to.be.visible;
+            expect(email_text).to.equal(account.username);
             expect($email_tag).to.be.exist;
         } else {
             new Error(`Not found`);
