@@ -1,14 +1,10 @@
 import { Given, When, Then } from "@badeball/cypress-cucumber-preprocessor";
-import Bizfly, { BizTicket, CreateGroup, CreateTicket, GroupTable } from "../../pages/selectors";
+import CreateGroup from "../../pages/ui-create-group";
 import data from "../../../fixtures/input-data.json";
 import account from "../../../fixtures/account.json";
 import { faker } from "@faker-js/faker";
 
-let bizfly = new Bizfly();
-let bizticket = new BizTicket();
 let create_group = new CreateGroup();
-let group_table = new GroupTable();
-let create_ticket = new CreateTicket();
 
 When('Tạo mới nhóm công việc nhập toàn ký tự chữ vào các trường bắt buộc, giữ nguyên giá trị workflow mặc định và chọn hiển thị với tất cả thành viên trong dự án', function () {
     let group_name = faker.string.alpha({ length: { min: 1, max: 10 } });
@@ -67,10 +63,6 @@ When ('Tạo mới nhóm công việc bỏ trống trường Tên nhóm công vi
     create_group.getGroupName().should('have.attr', 'required');
     let group_description = faker.music.songName();
     cy.inputGroupNameAndGroupDescription('{backspace}', group_description);
-
-    // Chưa check đc tooltip
-    // create_group.getGroupName().realHover()
-    // create_group.getGroupName().should('have.text', 'Please fill out this field')
 
     create_group.getSelectedWorkflow(data.work_flow.default.text).should('be.visible');
     

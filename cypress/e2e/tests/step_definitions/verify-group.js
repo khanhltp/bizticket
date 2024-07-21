@@ -1,10 +1,14 @@
 import { Given, When, Then } from "@badeball/cypress-cucumber-preprocessor";
-import Bizfly, { BizTicket, CreateGroup, CreateTicket, EditGroup, GroupTable } from "../../pages/selectors";
+import BizTicket from "../../pages/ui-bizticket";
+import CreateGroup from "../../pages/ui-create-group";
+import CreateTicket from "../../pages/ui-create-ticket";
+import EditGroup from "../../pages/ui-edit-group";
+import GroupTable from "../../pages/ui-group-table";
+
 import data from "../../../fixtures/input-data.json";
 import account from "../../../fixtures/account.json";
 import { faker } from "@faker-js/faker";
 
-let bizfly = new Bizfly();
 let bizticket = new BizTicket();
 let create_group = new CreateGroup();
 let group_table = new GroupTable();
@@ -168,8 +172,7 @@ Then ('Hệ thống trả về kết quả tìm kiếm có chứa nhóm công vi
 });
 
 Then ('Hệ thống hiển thị tooltip {string}', function(tooltip_text) {
-    cy.log('Pending: Chưa check được tooltip')
-    // create_group.getGroupName().should('have.text', tooltip_text)
+    cy.log('Pending')
 });
 
 
@@ -223,7 +226,6 @@ Then ('Hệ thống thông báo {string} khi chỉnh sửa theo testcase edit_gr
         edit_group.getGroupDescription().should('have.value', group_info.group_description);
     })
     cy.verifyDisplayToOnly();
-    // edit_group.getAsignedMembers().should('have.value', data.account_id)
 
     cy.verifyDropdownInGeneralInfo(edit_group.getDefaultHandler());
     cy.verifyDropdownInGeneralInfo(edit_group.getDefaultRelatedPerson());

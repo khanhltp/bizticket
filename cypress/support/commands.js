@@ -65,7 +65,15 @@ Cypress.on('uncaught:exception', (err, runnable) => {
   return false
 })
 
-import { BizTicket, CreateGroup, EditGroup } from "../e2e/pages/selectors";
+// import { BizTicket, CreateGroup, EditGroup } from "../e2e/pages/selectors";
+
+// import Bizfly from "../../pages/ui-bizfly";
+import BizTicket from "../e2e/pages/ui-bizticket";
+import CreateGroup from "../e2e/pages/ui-create-group";
+// import CreateTicket from "../../pages/ui-create-ticket";
+import EditGroup from "../e2e/pages/ui-edit-group";
+// import GroupTable from "../../pages/ui-group-table";
+
 import data from "../fixtures/input-data.json";
 
 let create_group = new CreateGroup();

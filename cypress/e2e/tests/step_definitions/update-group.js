@@ -1,14 +1,12 @@
 import { Given, When, Then } from "@badeball/cypress-cucumber-preprocessor";
-import Bizfly, { BizTicket, CreateGroup, CreateTicket, EditGroup, GroupTable } from "../../pages/selectors";
+import BizTicket from "../../pages/ui-bizticket";
+import EditGroup from "../../pages/ui-edit-group";
+
 import data from "../../../fixtures/input-data.json";
 import account from "../../../fixtures/account.json";
 import { faker } from "@faker-js/faker";
 
-let bizfly = new Bizfly();
 let bizticket = new BizTicket();
-let create_group = new CreateGroup();
-let group_table = new GroupTable();
-let create_ticket = new CreateTicket();
 let edit_group = new EditGroup();
 
 // edit_group_01
@@ -49,19 +47,13 @@ When ('Chỉnh sửa nhóm công việc vừa tạo nhập 5 ký tự chữ vào
 // edit_group_02
 When ('Chỉnh sửa nhóm công việc vừa tạo nhập 6 ký tự số vào các trường text, không upload avatar, chọn chỉ thành viên được chọn có thể tương tác, các trường dropdown chọn tên thành viên, các trường radio chọn có, chọn tạo full ticket, chọn danh sách dạng danh sách', function() {
     
-    // cy.get('div[title="Tổng quan dự án"]').realHover() // Simulate hover action
-    // .wait(500)
-    // .should('be.visible') // Tooltip should be visible
-    // .should('contain.text', 'Tổng quan dự án'); 
     bizticket.getGroupSetting().click();
 
     let group_name = faker.string.numeric(6);
     let group_description = faker.string.numeric(6);
     cy.editGroupNameAndGroupDescription(group_name, group_description);
 
-    // Hệ thống mặc định chọn tên thành viên là người tạo nên value tên thành viên đã bị disable
     edit_group.getOnlyDisplayToAsignedMembers().check().should('be.checked');
-    // edit_group.getAsignedMembers().select(data.account_id, {force: true} ).should('have.value', data.account_id)
 
     cy.selectDropdownInGeneralInfo(edit_group.getDefaultHandler(), data.account_id, account.username);
     cy.selectDropdownInGeneralInfo(edit_group.getDefaultRelatedPerson(), data.account_id, account.username);
@@ -99,7 +91,6 @@ When ('Chỉnh sửa nhóm công việc vừa tạo nhập 6 ký tự đặc bi�
 
     edit_group.getOnlyDisplayToAsignedMembers().check().should('be.checked');
     edit_group.getAsignedMembers().select(group_member_value, {force: true} );
-    // cy.trimSpaceAndCheckValue(edit_group.getAsignedMembers(), group_member_value)
     
     cy.readFile(data.file_path).then(function (group_info) {
         group_info.display = "only";

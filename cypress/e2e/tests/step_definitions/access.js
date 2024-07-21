@@ -1,14 +1,11 @@
 import { Given, When, Then } from "@badeball/cypress-cucumber-preprocessor";
-import Bizfly, { BizTicket, CreateGroup, CreateTicket, GroupTable } from "../../pages/selectors";
+import Bizfly from "../../pages/ui-bizfly";
+import BizTicket from "../../pages/ui-bizticket";
 import data from "../../../fixtures/input-data.json";
 import account from "../../../fixtures/account.json";
-import { faker } from "@faker-js/faker";
 
 let bizfly = new Bizfly();
 let bizticket = new BizTicket();
-let create_group = new CreateGroup();
-let group_table = new GroupTable();
-let create_ticket = new CreateTicket();
 
 Given('Đăng nhập hệ thống và truy cập màn hình Tạo mới nhóm công việc', function () {
     bizfly.visitURL(data.base_url + data.path.login)
